@@ -22,6 +22,7 @@ app.use((req, res, next) => {
 
 const allowedOrigins = [
   "http://localhost:8080",
+  "https://floodsense23.vercel.app"
 ];
 
 app.use(
