@@ -22,25 +22,16 @@ app.use((req, res, next) => {
 
 const allowedOrigins = [
   "http://localhost:8080",
-  "https://floodsense23.vercel.app"
+  "https://floodsense23.vercel.app",
 ];
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-
-      if (!allowedOrigins.includes(origin)) {
-        return callback(new Error("Not allowed by CORS"), false);
-      }
-
-      return callback(null, true);
-    },
+    origin: allowedOrigins,
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 // 🔥 REQUIRED FOR PREFLIGHT REQUESTS
 // In Express 5, the '*' path syntax can cause issues. 
