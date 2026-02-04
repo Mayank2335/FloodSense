@@ -7,7 +7,7 @@ import authRoutes from "./routes/auth";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 10000;
+const port = process.env.PORT || 5000;
 const mongoUri = process.env.MONGO_URI || "";
 
 /* -------------------- DEBUG LOGGER -------------------- */
@@ -74,6 +74,6 @@ app.get("/api/health", (req: Request, res: Response) => {
 
 /* -------------------- SERVER -------------------- */
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(5000, () => {
+  console.log(`Server running on port 5000`);
 });
