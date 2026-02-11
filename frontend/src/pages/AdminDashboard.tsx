@@ -52,16 +52,27 @@ const AdminDashboard = () => {
     const fetchData = async () => {
         try {
              // Fetch Reports
-             const apiUrl = import.meta.env.VITE_API_URL;
+             const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+             console.log("Admin Dashboard fetching from:", apiUrl); // Debugging log
+
              const resReports = await fetch(`${apiUrl}/api/reports`);
-             if (resReports.ok) setReports(await resReports.json());
+             if (resReports.ok) {
+                 setReports(await resReports.json());
+             } else {
+                 console.error("Failed to fetch reports:", resReports.status);
+             }
 
              // Fetch Alerts
              const resAlerts = await fetch(`${apiUrl}/api/alerts`);
-             if (resAlerts.ok) setAlerts(await resAlerts.json());
+             if (resAlerts.ok) {
+                 setAlerts(await resAlerts.json());
+             } else {
+                 console.error("Failed to fetch alerts:", resAlerts.status);
+             }
 
         } catch (error) {
             console.error("Failed to fetch admin data", error);
+            toast({ title: "Connection Error", description: "Could not connect to server.", variant: "destructive" });
         }
     };
 
@@ -71,7 +82,7 @@ const AdminDashboard = () => {
     };
 
     const handleUpdateStatus = async (id: string, newStatus: string) => {
-        const apiUrl = import.meta.env.VITE_API_URL;
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
         await fetch(`${apiUrl}/api/reports/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -83,7 +94,7 @@ const AdminDashboard = () => {
 
     const handleCreateAlert = async (e: React.FormEvent) => {
         e.preventDefault();
-        const apiUrl = import.meta.env.VITE_API_URL;
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
         const res = await fetch(`${apiUrl}/api/alerts`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -94,11 +105,13 @@ const AdminDashboard = () => {
             toast({ title: "Alert Broadcasted", description: "Public warning sent successfully." });
             setNewAlert({ title: '', description: '', severity: 'medium', location: '' });
             fetchData();
+        } else {
+             toast({ title: "Error", description: "Failed to broadcast alert.", variant: "destructive" });
         }
     };
 
     const handleDeleteAlert = async (id: string) => {
-        const apiUrl = import.meta.env.VITE_API_URL;
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
         await fetch(`${apiUrl}/api/alerts/${id}`, { method: 'DELETE' });
         toast({ title: "Alert Removed", description: "This alert is no longer active." });
         fetchData();
