@@ -12,11 +12,17 @@ const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, location } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       res.status(400).json({ message: 'User already exists' });
+      return;
+    }
+
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      res.status(400).json({ message: 'Username already exists' });
       return;
     }
 
@@ -27,13 +33,15 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
       username,
       email,
       passwordHash,
+      location,
     });
 
     await newUser.save();
 
     res.status(201).json({ message: 'User created successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+  } catch (error: any) {
+    console.error("Signup Error:", error);
+    res.status(500).json({ message: 'Server error', error: error.message || error });
   }
 };
 
@@ -84,8 +92,25 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
     let user = await User.findOne({ email });
 
     if (!user) {
+      let candidateUsername = name || email.split('@')[0];
+      
+      // Check for duplicate username and generate a unique one if needed
+      let isUnique = false;
+      let suffix = 0;
+      const baseUsername = candidateUsername;
+
+      while (!isUnique) {
+        const existingUsername = await User.findOne({ username: candidateUsername });
+        if (!existingUsername) {
+          isUnique = true;
+        } else {
+          suffix++;
+          candidateUsername = `${baseUsername}${suffix}`;
+        }
+      }
+
       user = new User({
-        username: name || email.split('@')[0],
+        username: candidateUsername,
         email,
         googleId,
       });

@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth";
+import reportRoutes from "./routes/reportRoutes";
+import alertRoutes from "./routes/alertRoutes";
 
 dotenv.config();
 
@@ -22,6 +24,8 @@ app.use((req, res, next) => {
 
 const allowedOrigins = [
   "http://localhost:8080",
+  "http://localhost:5173",
+  "http://localhost:5174",
   "https://floodsense23.vercel.app",
 ];
 
@@ -33,13 +37,6 @@ app.use(
 );
 
 
-// 🔥 REQUIRED FOR PREFLIGHT REQUESTS
-// In Express 5, the '*' path syntax can cause issues. 
-// Since we are using app.use(cors({...})) globally above, this handles OPTIONS requests automatically.
-// If explicit OPTIONS handling is needed, use a regex or handle it specifically.
-// app.options("*", cors()); // REMOVED to fix "Missing parameter name at index 1" error
-
-/* -------------------- MIDDLEWARE -------------------- */
 
 app.use(express.json());
 
@@ -60,6 +57,8 @@ connectDB();
 /* -------------------- ROUTES -------------------- */
 
 app.use("/api/auth", authRoutes);
+app.use("/api/reports", reportRoutes);
+app.use("/api/alerts", alertRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("FloodSense Backend is running!");

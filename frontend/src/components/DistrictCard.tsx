@@ -9,9 +9,10 @@ import { useDistrictWeather } from '@/hooks/useWeather';
 
 interface DistrictCardProps {
   district: District;
+  showWeather?: boolean;
 }
 
-export function DistrictCard({ district }: DistrictCardProps) {
+export function DistrictCard({ district, showWeather = true }: DistrictCardProps) {
   // Try to specific real weather if coords exist
   const { weather: realWeather, isLoading: weatherLoading } = useDistrictWeather(
      district.coordinates?.lat || 0, 
@@ -89,16 +90,20 @@ export function DistrictCard({ district }: DistrictCardProps) {
         </div>
 
         {/* WEATHER WIDGET Integration */}
-        {district.coordinates && weatherLoading ? (
-            <div className="h-24 flex items-center justify-center border border-dashed border-slate-200 rounded-xl mb-4">
-               <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
-               <span className="ml-2 text-xs text-slate-400">Syncing Satellite Data...</span>
-            </div>
-        ) : displayWeather ? (
-          <div className="mb-4">
-             <WeatherWidget weather={displayWeather} className="shadow-sm border-slate-200/50" />
-          </div>
-        ) : null}
+        {showWeather && (
+          <>
+            {district.coordinates && weatherLoading ? (
+                <div className="h-24 flex items-center justify-center border border-dashed border-slate-200 rounded-xl mb-4">
+                  <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+                  <span className="ml-2 text-xs text-slate-400">Syncing Satellite Data...</span>
+                </div>
+            ) : displayWeather ? (
+              <div className="mb-4">
+                <WeatherWidget weather={displayWeather} className="shadow-sm border-slate-200/50" />
+              </div>
+            ) : null}
+          </>
+        )}
 
         {/* Alert Message */}
         {district.alertMessage && (

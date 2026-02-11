@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Droplets, Bell, Menu, X, Phone, User, Settings, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -26,6 +26,7 @@ interface HeaderProps {
 export function Header({ alertCount }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const user = localStorage.getItem('user');
   let userData = null;
   try {
@@ -42,10 +43,10 @@ export function Header({ alertCount }: HeaderProps) {
   };
 
   const navLinks = [
-    { href: '#dashboard', label: 'Dashboard', active: true },
-    { href: '#districts', label: 'Districts', active: false },
-    { href: '#alerts', label: 'Alerts', active: false },
-    { href: '#resources', label: 'Resources', active: false },
+    { href: '/', label: 'Dashboard', active: location.pathname === '/' },
+    { href: '/districts', label: 'Districts', active: location.pathname === '/districts' },
+    { href: '/alerts', label: 'Alerts', active: location.pathname === '/alerts' },
+    { href: '/resources', label: 'Resources', active: location.pathname === '/resources' },
   ];
 
   return (
@@ -64,9 +65,9 @@ export function Header({ alertCount }: HeaderProps) {
 
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
-                href={link.href}
+                to={link.href}
                 className={cn(
                   'px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200',
                   link.active 
@@ -75,7 +76,7 @@ export function Header({ alertCount }: HeaderProps) {
                 )}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 

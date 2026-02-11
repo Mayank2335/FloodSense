@@ -6,7 +6,16 @@ interface WaterLevelChartProps {
 }
 
 export function WaterLevelChart({ data, threshold }: WaterLevelChartProps) {
-  const isDanger = data[data.length - 1].level > 90;
+  if (!data || data.length === 0) {
+    return (
+      <div className="h-[120px] w-full mt-2 flex items-center justify-center bg-slate-50/50 rounded text-xs text-slate-400">
+        No historical data
+      </div>
+    );
+  }
+
+  const lastPoint = data[data.length - 1];
+  const isDanger = lastPoint ? lastPoint.level > 90 : false;
   const color = isDanger ? '#ef4444' : '#3b82f6'; // Red or Blue
 
   return (

@@ -8,40 +8,46 @@ interface WeatherData {
   weather_code: number;
 }
 
-// Map WMO Weather codes to our meaningful descriptions
-const getWeatherCondition = (code: number): 'Sunny' | 'Cloudy' | 'Rainy' | 'Stormy' => {
-  if (code <= 3) return 'Sunny';
-  if (code <= 48) return 'Cloudy';
-  if (code <= 67 || (code >= 80 && code <= 82)) return 'Rainy';
-  if (code >= 95) return 'Stormy';
-  return 'Cloudy'; // Default
+// Map OpenWeatherMap codes to our descriptions
+const getWeatherCondition = (id: number): 'Sunny' | 'Cloudy' | 'Rainy' | 'Stormy' => {
+  if (id >= 200 && id < 300) return 'Stormy';
+  if (id >= 300 && id < 600) return 'Rainy';
+  if (id >= 600 && id < 700) return 'Rainy'; // Snow as Rainy for now
+  if (id >= 700 && id < 800) return 'Cloudy'; // Atmosphere
+  if (id === 800) return 'Sunny';
+  if (id > 800) return 'Cloudy';
+  return 'Cloudy';
 };
 
 export function useDistrictWeather(lat: number, lng: number) {
+  const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
+  
   const { data, isLoading, error } = useQuery({
     queryKey: ['weather', lat, lng],
     queryFn: async () => {
+      // Use OpenWeatherMap API
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${apiKey}&units=metric`
       );
       
       if (!response.ok) {
-        throw new Error('Weather data fetch failed');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Weather API Error:', response.status, errorData);
+        throw new Error(`Weather data fetch failed: ${response.status} ${errorData.message || ''}`);
       }
 
       return response.json();
     },
-    refetchInterval: 300000, // Refetch every 5 minutes
+    refetchInterval: 300000, 
+    enabled: !!apiKey, // Only run if key exists
   });
 
-  const currentWeather = data?.current;
-
   return {
-    weather: currentWeather ? {
-      temp: Math.round(currentWeather.temperature_2m),
-      humidity: currentWeather.relative_humidity_2m,
-      windSpeed: Math.round(currentWeather.wind_speed_10m),
-      condition: getWeatherCondition(currentWeather.weather_code)
+    weather: data ? {
+      temp: Math.round(data.main.temp),
+      humidity: data.main.humidity,
+      windSpeed: Math.round(data.wind.speed),
+      condition: getWeatherCondition(data.weather[0].id)
     } : null,
     isLoading,
     error

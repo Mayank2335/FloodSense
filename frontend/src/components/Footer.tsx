@@ -48,8 +48,7 @@ export function Footer() {
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Safety Guidelines</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Emergency Contacts</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">API Documentation</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a></li>
-            </ul>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a></li>              <li><a href="/admin/login" className="text-muted-foreground hover:text-primary transition-colors">Admin Access</a></li>            </ul>
           </div>
         </div>
 

@@ -6,11 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { MapPin, Loader2 } from "lucide-react";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [location, setLocation] = useState("");
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -38,6 +41,41 @@ const Signup = () => {
     }
   };
 
+  const handleGetLocation = () => {
+    setIsLoadingLocation(true);
+    if (!navigator.geolocation) {
+      toast({ title: "Error", description: "Geolocation is not supported by your browser", variant: "destructive" });
+      setIsLoadingLocation(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const response = await fetch(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyAYu8w31sHlw1RN3a6RpZnCvS6nac1L9TM`
+          );
+          const data = await response.json();
+          if (data.results && data.results[0]) {
+            setLocation(data.results[0].formatted_address);
+            toast({ title: "Location found", description: "Your location has been updated." });
+          } else {
+            toast({ title: "Error", description: "Could not fetch address details", variant: "destructive" });
+          }
+        } catch (error) {
+           toast({ title: "Error", description: "Failed to fetch address", variant: "destructive" });
+        } finally {
+          setIsLoadingLocation(false);
+        }
+      },
+      (error) => {
+        toast({ title: "Error", description: "Unable to retrieve your location", variant: "destructive" });
+        setIsLoadingLocation(false);
+      }
+    );
+  };
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -45,7 +83,7 @@ const Signup = () => {
       const response = await fetch(`${apiUrl}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, password, location }),
       });
       const data = await response.json();
 
@@ -53,7 +91,7 @@ const Signup = () => {
         toast({ title: "Account created", description: "You can now login." });
         navigate("/login");
       } else {
-        toast({ title: "Signup failed", description: data.message, variant: "destructive" });
+        toast({ title: "Signup failed", description: data.error || data.message, variant: "destructive" });
       }
     } catch (error) {
       toast({ title: "Error", description: "Something went wrong", variant: "destructive" });
@@ -100,6 +138,32 @@ const Signup = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="location">Location</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="location"
+                  type="text"
+                  placeholder="San Francisco, CA"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="icon"
+                  onClick={handleGetLocation} 
+                  disabled={isLoadingLocation}
+                  title="Get current location"
+                >
+                  {isLoadingLocation ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <MapPin className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
             </div>
             <Button type="submit" className="w-full">
               Sign Up

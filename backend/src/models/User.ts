@@ -5,6 +5,7 @@ export interface IUser extends Document {
   email: string;
   passwordHash?: string;
   googleId?: string;
+  location?: string;
 }
 
 const UserSchema: Schema = new Schema({
@@ -12,6 +13,7 @@ const UserSchema: Schema = new Schema({
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: false },
   googleId: { type: String, unique: true, sparse: true },
+  location: { type: String, required: false },
 }, { timestamps: true });
 
 export default mongoose.model<IUser>('User', UserSchema);
