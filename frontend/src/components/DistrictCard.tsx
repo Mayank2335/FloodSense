@@ -19,8 +19,8 @@ export function DistrictCard({ district, showWeather = true }: DistrictCardProps
      district.coordinates?.lng || 0
   );
 
-  // Use real weather if active, otherwise fallback to mock
-  const displayWeather = district.coordinates ? realWeather : district.weather;
+  // Use real weather if available, otherwise fallback to provided weather prop (which might be real or mock)
+  const displayWeather = realWeather || district.weather;
 
   const formatTime = (date: Date) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -92,7 +92,7 @@ export function DistrictCard({ district, showWeather = true }: DistrictCardProps
         {/* WEATHER WIDGET Integration */}
         {showWeather && (
           <>
-            {district.coordinates && weatherLoading ? (
+            {district.coordinates && weatherLoading && !displayWeather ? (
                 <div className="h-24 flex items-center justify-center border border-dashed border-slate-200 rounded-xl mb-4">
                   <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
                   <span className="ml-2 text-xs text-slate-400">Syncing Satellite Data...</span>

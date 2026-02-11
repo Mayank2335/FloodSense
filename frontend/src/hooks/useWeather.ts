@@ -20,7 +20,7 @@ const getWeatherCondition = (id: number): 'Sunny' | 'Cloudy' | 'Rainy' | 'Stormy
 };
 
 export function useDistrictWeather(lat: number, lng: number) {
-  const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
+  const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY || "4787224742c45cb1dd7dc2b90de1bbf2";
   
   const { data, isLoading, error } = useQuery({
     queryKey: ['weather', lat, lng],
