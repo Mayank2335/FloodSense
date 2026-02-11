@@ -7,14 +7,19 @@ export function usePopulation(cityName: string | null) {
       if (!cityName) return null;
       
       const apiKey = 'SHSgzW3Wxw4Jacw3v59QEr81PvfAnoY29t6FMVc5';
-      // Clean city name: Remove ' City', ' District', ' Division' etc to improve match rate
-      // Also remove any parenthetical info like "(City)"
-      let term = cityName.split(',')[0]
-        .replace(/ City$| District$| Division$| Cantonment$/i, '')
-        .replace(/\(.*\)/g, '')
-        .trim();
+      // Clean city name logic
+      let term = cityName.split(',')[0];
       
-      console.log(`Fetching population for corrected term: ${term}`);
+      // aggressive cleaning of administrative terms
+      const removeTerms = [' City', ' District', ' Division', ' Cantonment', ' Tehsil'];
+      removeTerms.forEach(t => {
+          const re = new RegExp(t + '$', 'i');
+          term = term.replace(re, '');
+      });
+      
+      term = term.replace(/\(.*\)/g, '').trim();
+      
+      console.log(`Fetching population for raw: "${cityName}", cleaned: "${term}"`);
 
       const response = await fetch(
         `https://api.api-ninjas.com/v1/city?name=${encodeURIComponent(term)}&limit=1`,

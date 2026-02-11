@@ -19,7 +19,7 @@ const Districts = () => {
     if (e) e.preventDefault();
     if (!searchQuery.trim()) return;
 
-    const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
+    const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY || "4787224742c45cb1dd7dc2b90de1bbf2";
     if (!apiKey) {
       toast({ title: "Configuration Error", description: "API Key is missing", variant: "destructive" });
       return;
