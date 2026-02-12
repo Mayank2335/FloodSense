@@ -13,6 +13,7 @@ import DistrictResources from "./pages/DistrictResources";
 import Districts from "./pages/Districts";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import RiverDischarge from "./pages/RiverDischarge";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/districts" element={<Districts />} />
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/resources" element={<DistrictResources />} />
+          <Route path="/river-monitor" element={<RiverDischarge />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
