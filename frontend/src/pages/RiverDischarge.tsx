@@ -92,10 +92,7 @@ const RiverDischarge = () => {
       <Header alertCount={0} />
       
       <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">River Discharge Monitor</h1>
-        <p className="text-slate-600 mb-8">
-          Analyze hydrological data and river discharge rates using Open-Meteo flood API.
-        </p>
+        <h1 className="text-3xl font-bold text-slate-900 mb-8">River Discharge Monitor</h1>
 
         <div className="flex gap-4 mb-8 max-w-lg">
           <Input 
