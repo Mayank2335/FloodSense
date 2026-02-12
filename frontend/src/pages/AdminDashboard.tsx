@@ -124,7 +124,7 @@ const AdminDashboard = () => {
                 <div>
                     <h1 className="text-2xl font-bold flex items-center gap-2 text-red-500">
                         <ShieldAlert className="h-8 w-8" />
-                        FloodSense Command Center
+                        BhaadSuraksha Dal Command Center
                     </h1>
                     <p className="text-slate-400 text-sm">Admin Operation Dashboard</p>
                 </div>
