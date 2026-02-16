@@ -11,7 +11,7 @@ export function Footer() {
               <div className="gradient-ocean rounded-xl p-2">
                 <Droplets className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="text-lg font-bold text-foreground">BhaadSuraksha Dal</span>
+              <span className="text-lg font-bold text-foreground">FloodSense Dal</span>
             </div>
             <p className="text-sm text-muted-foreground max-w-sm mb-4">
               Protecting communities through real-time flood monitoring and early warning systems. 
@@ -55,7 +55,7 @@ export function Footer() {
         <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
              <p className="text-sm text-foreground font-medium">
-              © 2026 BhaadSuraksha Dal Initiative.
+              © 2026 FloodSense Dal Initiative.
              </p>
              <p className="text-xs text-muted-foreground">
                Version 2.0.1-stable • Node: Asia-South1 • <span className="text-green-600 font-mono">System Normal</span>

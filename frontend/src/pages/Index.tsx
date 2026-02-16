@@ -602,7 +602,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-slate-200/60 bg-white/40 backdrop-blur py-6 mt-12">
         <div className="container mx-auto px-4 flex justify-between items-center text-xs text-slate-400">
-           <p>© 2026 BhaadSuraksha Dal Network. Restricted Access.</p>
+           <p>© 2026 FloodSense Dal Network. Restricted Access.</p>
            <div className="flex gap-4">
               <span>Privacy</span>
               <span>Terms</span>

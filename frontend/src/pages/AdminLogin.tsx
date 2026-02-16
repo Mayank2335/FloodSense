@@ -36,7 +36,7 @@ const AdminLogin = () => {
           </div>
           <CardTitle className="text-2xl text-center">Admin Access</CardTitle>
           <CardDescription className="text-center text-slate-400">
-            Secure Gateway for BhaadSuraksha Dal Command Center
+            Secure Gateway for FloodSense Dal Command Center
           </CardDescription>
         </CardHeader>
         <CardContent>

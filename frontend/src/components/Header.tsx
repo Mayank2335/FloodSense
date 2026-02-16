@@ -59,7 +59,7 @@ export function Header({ alertCount }: HeaderProps) {
               <Droplets className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground tracking-tight">BhaadSuraksha Dal</h1>
+              <h1 className="text-xl font-bold text-foreground tracking-tight">FloodSense Dal</h1>
               <p className="text-xs text-muted-foreground">Early Warning System</p>
             </div>
           </div>
