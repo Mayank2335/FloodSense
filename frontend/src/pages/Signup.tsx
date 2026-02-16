@@ -31,7 +31,7 @@ const Signup = () => {
       if (response.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data));
-        toast({ title: "Account created", description: "Welcome to FloodSense Dal!" });
+        toast({ title: "Account created", description: "Welcome to FloodSense !" });
         navigate("/");
       } else {
          toast({ title: "Signup failed", description: data.message, variant: "destructive" });

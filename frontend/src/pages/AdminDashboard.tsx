@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"; 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Bell, FileText, CheckCircle, AlertTriangle, ShieldAlert, Trash2 } from "lucide-react";
+import { LogOut, Bell, FileText, CheckCircle, AlertTriangle, Shielert, Trash2 } from "lucide-react";
 
 interface Report {
   _id: string;
@@ -123,8 +123,8 @@ const AdminDashboard = () => {
             <header className="max-w-7xl mx-auto flex justify-between items-center mb-8 border-b border-slate-800 pb-4">
                 <div>
                     <h1 className="text-2xl font-bold flex items-center gap-2 text-red-500">
-                        <ShieldAlert className="h-8 w-8" />
-                        FloodSense Dal Command Center
+                        <Shielert className="h-8 w-8" />
+                        FloodSense  Command Center
                     </h1>
                     <p className="text-slate-400 text-sm">Admin Operation Dashboard</p>
                 </div>

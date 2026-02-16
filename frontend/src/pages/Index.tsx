@@ -45,7 +45,7 @@ const Index = () => {
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   
-  const [fetchedAlerts, setFetchedAlerts] = useState<Alert[]>([]);
+  const [fetcheerts, setFetcheerts] = useState<Alert[]>([]);
   const [monitoredCount, setMonitoredCount] = useState(0);
   const [riskPopulation, setRiskPopulation] = useState(0);
 
@@ -56,7 +56,7 @@ const Index = () => {
             const res = await fetch(`${apiUrl}/api/alerts`);
             if (res.ok) {
                 const data = await res.json();
-                const mappedAlerts: Alert[] = data.map((item: any) => {
+                const mappeerts: Alert[] = data.map((item: any) => {
                      let lvl: RiskLevel = 'safe';
                      if (item.severity === 'high') lvl = 'danger';
                      else if (item.severity === 'medium') lvl = 'warning';
@@ -73,10 +73,10 @@ const Index = () => {
                          isActive: true
                      }
                 });
-                setFetchedAlerts(mappedAlerts);
+                setFetcheerts(mappeerts);
 
                 // Calculate Stats Dynamically based on Alerts
-                const uniqueLocations = Array.from(new Set(mappedAlerts.map(a => a.districtName)));
+                const uniqueLocations = Array.from(new Set(mappeerts.map(a => a.districtName)));
                 setMonitoredCount(uniqueLocations.length);
 
                 // Process population in parallel with caching to prevent API spam
@@ -193,10 +193,10 @@ const Index = () => {
   const [displayedDistricts, setDisplayedDistricts] = useState<District[]>(mockDistricts);
 
   useEffect(() => {
-    if (fetchedAlerts.length > 0) {
+    if (fetcheerts.length > 0) {
       // Create a map of alerted districts for faster lookup
       const alertMap = new Map();
-      fetchedAlerts.forEach(alert => {
+      fetcheerts.forEach(alert => {
         // Normalize name for matching
         const key = alert.districtName.toLowerCase().split(',')[0].trim();
         alertMap.set(key, alert);
@@ -244,7 +244,7 @@ const Index = () => {
         });
         setDisplayedDistricts(updatedDistricts);
     }
-  }, [fetchedAlerts, monitoredCount]); // Add monitoredCount as dependency since it changes when pop cache fills
+  }, [fetcheerts, monitoredCount]); // Add monitoredCount as dependency since it changes when pop cache fills
   
   const findNearestDistrict = (lat: number, lng: number) => {
     let minDistance = Infinity;
@@ -288,16 +288,16 @@ const Index = () => {
     <div className="min-h-screen bg-slate-100/40 relative overflow-hidden font-sans selection:bg-blue-500/20">
       <HeroBackground />
       
-      <Header alertCount={fetchedAlerts.length} />
+      <Header alertCount={fetcheerts.length} />
 
-      <AlertBanner alerts={fetchedAlerts} />
+      <AlertBanner alerts={fetcheerts} />
 
       <main className="container mx-auto px-4 py-6 space-y-6">
         
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             title="Active Alerts"
-            value={fetchedAlerts.length}
+            value={fetcheerts.length}
             subtitle="Immediate Action Required"
             icon={AlertTriangle}
             variant="danger"
@@ -602,7 +602,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-slate-200/60 bg-white/40 backdrop-blur py-6 mt-12">
         <div className="container mx-auto px-4 flex justify-between items-center text-xs text-slate-400">
-           <p>© 2026 FloodSense Dal Network. Restricted Access.</p>
+           <p>© 2026 FloodSense  Network. Restricted Access.</p>
            <div className="flex gap-4">
               <span>Privacy</span>
               <span>Terms</span>

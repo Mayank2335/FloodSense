@@ -23,8 +23,8 @@ export function AlertBanner({ alerts }: AlertBannerProps) {
     safe: 0
   };
 
-  const sortedAlerts = [...activeAlerts].sort((a, b) => priorityMap[b.level] - priorityMap[a.level]);
-  const primaryAlert = sortedAlerts[0];
+  const sorteerts = [...activeAlerts].sort((a, b) => priorityMap[b.level] - priorityMap[a.level]);
+  const primaryAlert = sorteerts[0];
   const additionalCount = activeAlerts.length - 1;
 
   // Determine styling based on highest priority alert
